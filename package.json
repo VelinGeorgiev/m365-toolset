@@ -9,7 +9,7 @@
     "url": "https://github.com/VelinGeorgiev/Office365-Toolset/issues"
   },
   "scripts": {
-    "build": "uglifyjs --compress --mangle --source-map --output ./sp.min.js -- sp.js",
+    "build": "npx eslint sp.js && uglifyjs --compress --mangle --source-map --output ./sp.min.js -- sp.js",
     "clean": "rimraf ./sp.min.js",
     "test": "c8 mocha \"dist/**/*.spec.js\""
   },
@@ -40,6 +40,7 @@
   "dependencies": {},
   "devDependencies": {
     "rimraf": "3.0.0",
-    "uglify-js": "3.7.6"
+    "uglify-js": "3.7.6",
+    "eslint": "6.8.0"
   }
 }
