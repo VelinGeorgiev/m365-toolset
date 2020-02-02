@@ -272,7 +272,7 @@ var s = {
                         headers: s.def.headers(response, true),
                         method: "POST",
                         body: JSON.stringify({
-                            "Hidden": isHidden || true
+                            "Hidden": isHidden
                         })
                     });
                 })
@@ -300,7 +300,7 @@ var s = {
                         headers: s.def.headers(response, true),
                         method: "POST",
                         body: JSON.stringify({
-                            "EnableModeration": isEnabled || true
+                            "EnableModeration": isEnabled
                         })
                     });
                 })
@@ -314,7 +314,7 @@ var s = {
                         headers: s.def.headers(response, true),
                         method: "POST",
                         body: JSON.stringify({
-                            "EnableVersioning": isEnabled || true
+                            "EnableVersioning": isEnabled
                         })
                     });
                 })
@@ -328,7 +328,7 @@ var s = {
                         headers: s.def.headers(response, true),
                         method: "POST",
                         body: JSON.stringify({
-                            "EnableFolderCreation": isEnabled || true
+                            "EnableFolderCreation": isEnabled
                         })
                     });
                 })
@@ -342,8 +342,8 @@ var s = {
                         headers: s.def.headers(response, true),
                         method: "POST",
                         body: JSON.stringify({
-                            "AllowContentTypes": isEnabled || true,
-                            "ContentTypesEnabled": isEnabled || true
+                            "AllowContentTypes": isEnabled,
+                            "ContentTypesEnabled": isEnabled
                         })
                     });
                 })
@@ -384,7 +384,7 @@ var s = {
                         headers: s.def.headers(response, true),
                         method: "POST",
                         body: JSON.stringify({
-                            "Hidden": isHidden || true
+                            "Hidden": isHidden
                         })
                     });
                 })
