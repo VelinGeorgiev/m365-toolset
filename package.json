@@ -1,0 +1,45 @@
+{
+  "name": "office365-toolset",
+  "version": "0.0.1",
+  "description": "Handy SharePoint functions to run in browser console when nothing else possible on client side. Supports IE11",
+  "license": "MIT",
+  "main": "./sp.min.js",
+  "homepage": "https://github.com/VelinGeorgiev/Office365-Toolset/",
+  "bugs": {
+    "url": "https://github.com/VelinGeorgiev/Office365-Toolset/issues"
+  },
+  "scripts": {
+    "build": "uglifyjs --compress --mangle --source-map --output ./sp.min.js -- sp.js",
+    "clean": "rimraf ./sp.min.js",
+    "test": "c8 mocha \"dist/**/*.spec.js\""
+  },
+  "keywords": [
+    "office 365",
+    "sharepoint framework",
+    "o365",
+    "spfx",
+    "sharepoint online",
+    "sharepoint",
+    "microsoft teams",
+    "microsoft graph",
+    "microsoft flow",
+    "azure active directory",
+    "azure ad",
+    "azure",
+    "microsoft"
+  ],
+  "author": "Velin Georgiev",
+  "maintainers": [
+    {
+      "name": "Velin Georgiev",
+      "email": "velin.georgiev@gmail.com",
+      "web": "https://blog.velingeorgiev.com"
+    }
+  ],
+  "contributors": [],
+  "dependencies": {},
+  "devDependencies": {
+    "rimraf": "3.0.0",
+    "uglify-js": "3.7.6"
+  }
+}
