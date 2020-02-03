@@ -418,6 +418,36 @@ var s = {
                 })
                 .then(s.def.success)
                 .catch(s.def.error);
+        },
+        setFormatter: function (listTitle, viewTitle, json) {
+            return s.auth()
+                .then(function (response) {
+                    return fetch(s.url + "/_api/web/lists/GetByTitle('" + encodeURIComponent(listTitle) + "')/views/GetByTitle('" + encodeURIComponent(viewTitle) + "')", {
+                        headers: s.def.headers(response, true),
+                        method: "POST",
+                        body: JSON.stringify({
+                            "CustomFormatter": JSON.stringify(json)
+                        })
+                    });
+                })
+                .then(s.def.success)
+                .catch(s.def.error);
+        },
+    },
+    field: {
+        setFormatter: function (listTitle, fieldTitle, json) {
+            return s.auth()
+                .then(function (response) {
+                    return fetch(s.url + "/_api/web/lists/GetByTitle('" + encodeURIComponent(listTitle) + "')/Fields/GetByInternalNameOrTitle('" + encodeURIComponent(fieldTitle) + "')", {
+                        headers: s.def.headers(response),
+                        method: "MERGE",
+                        body: JSON.stringify({
+                            "CustomFormatter": JSON.stringify(json)
+                        })
+                    });
+                })
+                .then(s.def.success)
+                .catch(s.def.error);
         }
     }
 }
