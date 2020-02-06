@@ -3,14 +3,14 @@
   "version": "0.0.1",
   "description": "Handy SharePoint functions to run in browser console when nothing else possible on client side. Supports IE11",
   "license": "MIT",
-  "main": "./sp.min.js",
+  "main": "./m365t.js",
   "homepage": "https://github.com/VelinGeorgiev/Office365-Toolset/",
   "bugs": {
     "url": "https://github.com/VelinGeorgiev/Office365-Toolset/issues"
   },
   "scripts": {
-    "build": "npx eslint sp.js && browserify sp.js > bundle.js && uglifyjs --compress --mangle --source-map --output ./bundle.min.js -- bundle.js",
-    "clean": "rimraf ./sp.min.js",
+    "build": "npx eslint m365t.js && browserify m365t.js > m365t.bundle.js && uglifyjs -c -m -o m365t.bundle.min.js -- m365t.bundle.js",
+    "clean": "rimraf m365t.bundle.js,m365t.bundle.min.js",
     "test": "c8 mocha \"dist/**/*.spec.js\""
   },
   "keywords": [
