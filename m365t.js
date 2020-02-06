@@ -1,5 +1,6 @@
 require("promise-polyfill");
 require("isomorphic-unfetch");
+// https://www.c-sharpcorner.com/UploadFile/anavijai/how-to-get-the-properties-of-a-website-in-sharepoint-2013-on/
 
 var s = {
     url: 'https://velingeorgiev.sharepoint.com/sites/s1',
