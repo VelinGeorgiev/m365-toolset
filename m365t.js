@@ -346,7 +346,7 @@ var s = {
         getTemplates: () => {
           return s.def.get('/_api/sitepages/pages/templates')  
         },
-        add: (name, title, content)  => {
+        add: async (name, title, content)  => {
             
 //            { 
 //                "PageLayoutType": "Article", 
@@ -355,13 +355,23 @@ var s = {
 //                "CanvasContent1": "[{\"controlType\":4,\"id\":\"23551566-9b9a-4faa-a095-302faabfa5f1\",\"innerHTML\":\"<p><strong>ggg1</strong></p>\",\"position\":{\"layoutIndex\":1,\"zoneIndex\":2,\"sectionIndex\":1,\"controlIndex\":1,\"sectionFactor\":12},\"addedFromPersistedData\":true},{\"controlType\":0,\"pageSettingsSlice\":{\"isDefaultDescription\":true,\"isDefaultThumbnail\":true,\"isSpellCheckEnabled\":true}}]"
 //            }
             
-            return s.def.post("/_api/sitepages/pages", 
+            const res = await s.def.post("/_api/sitepages/pages", 
               { 
                 "PageLayoutType": "Article", 
                 "Name": name, 
                 "Title": title, 
                 "CanvasContent1": content
              });
+            
+            const relativeUrl = s.url.substring(s.url.indexOf('/sites/'), s.url.length)
+            
+            console.log('relativeUrl')
+            console.log(relativeUrl)
+            
+            const { ListItemAllFields } = await s.page.getAsItem(relativeUrl + '/sitepages/' + name)
+            
+            return s.def.post(`/_api/sitepages/pages/GetById(${ListItemAllFields.Id})/Publish`);
+            
         },
         getAsItem: sitesRelativeUrl => {
             // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
