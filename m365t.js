@@ -150,6 +150,12 @@ var s = {
             return s.def.get("/_api/web/rootfolder?$select=WelcomePage");
         } 
     },
+    docLib: {
+      get: folderServerRelativeUrl => {
+        // folderServerRelativeUrl = /sites/s1/sitepages
+          return s.def.get(`/_api/web/GetFolderByServerRelativeUrl('${folderServerRelativeUrl}')`)
+      }
+    },
     list: {
         addList: function (title, baseTemplate) {
             return s.def.post("/_api/web/lists", {
