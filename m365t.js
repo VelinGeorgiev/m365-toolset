@@ -298,6 +298,10 @@ var s = {
                 options: { ResetAuthorAndCreatedOnCopy: true, ShouldBypassSharedLocks: true },
                 overwrite: overwrite || false
             })
+        },
+        remove: serverRelativeUrl => {
+            // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
+            return s.def.remove(`/_api/web/getfilebyserverrelativeurl('${serverRelativeUrl}')`)
         }
     },
     nav: {
