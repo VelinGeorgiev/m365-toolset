@@ -288,6 +288,16 @@ var s = {
         get: sitesRelativeUrl => {
             // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
              return s.def.get(`/_api/web/getFileByServerRelativeUrl('${sitesRelativeUrl}')`)
+        },
+        copy: (sourceFullUrl, targetFullUrl, overwrite) => {
+            // usage s.file.copy('https://msyte.sharepoint.com/sites/s1/sitepages/Welcome.aspx', 'https://msyte.sharepoint.com/sites/s1/sitepages/Welcome1.aspx')
+                
+            return s.def.post(`/_api/SP.MoveCopyUtil.CopyFileByPath()`, {
+                srcPath: { DecodedUrl: sourceFullUrl },
+                destPath: { DecodedUrl: targetFullUrl },
+                options: { ResetAuthorAndCreatedOnCopy: true, ShouldBypassSharedLocks: true },
+                overwrite: overwrite || false
+            })
         }
     },
     nav: {
@@ -314,6 +324,30 @@ var s = {
              if(navNodes && navNodes.length > 0) {
                 return s.def.remove(`/_api/web/navigation/quicklaunch/getbyid(${navNodes[0].Id})`)
              }
+        }
+    },
+    page: {
+        getAsItem: sitesRelativeUrl => {
+            // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
+            return s.def.get(`/_api/web/getFileByServerRelativeUrl('${sitesRelativeUrl}')?$expand=ListItemAllFields/ClientSideApplicationId,ListItemAllFields/PageLayoutType,ListItemAllFields/CommentsDisabled`)
+        },
+        getAsJson: targetPage => {
+            return s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
+        },
+        getAsCanvasContent1Json: async targetPage => {
+            
+            const p = await s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
+            
+            const result = JSON.parse(p.CanvasContent1)
+            
+            console.log('CanvasContent1')
+            console.log(result)
+            
+            return result
+        },
+        list: async () => {
+            
+            return await s.def.get(`/_api/sitepages/pages`)
         }
     }
 }
