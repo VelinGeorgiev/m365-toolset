@@ -301,7 +301,7 @@ var s = {
             return s.def.post(`/_api/SP.MoveCopyUtil.CopyFileByPath()`, {
                 srcPath: { DecodedUrl: sourceFullUrl },
                 destPath: { DecodedUrl: targetFullUrl },
-                options: { ResetAuthorAndCreatedOnCopy: true, ShouldBypassSharedLocks: true },
+                options: { ResetAuthorAndCreatedOnCopy: true, ShouldBypassSharedLocks: true, KeepBoth: false },
                 overwrite: overwrite || false
             })
         },
