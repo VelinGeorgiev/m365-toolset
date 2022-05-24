@@ -346,14 +346,22 @@ var s = {
         getTemplates: () => {
           return s.def.get('/_api/sitepages/pages/templates')  
         },
-        add: page => {
-            // https://spblog.net/post/2019/05/13/what-s-new-and-what-s-changed-in-sharepoint-online-rest-api-in-march-april-2019
-            return s.def.post("/_api/sitepages/pages", { 
+        add: (name, title, content)  => {
+            
+//            { 
+//                "PageLayoutType": "Article", 
+//                "Name": "Name123.aspx", 
+//                "Title": "Title XXX", 
+//                "CanvasContent1": "[{\"controlType\":4,\"id\":\"23551566-9b9a-4faa-a095-302faabfa5f1\",\"innerHTML\":\"<p><strong>ggg1</strong></p>\",\"position\":{\"layoutIndex\":1,\"zoneIndex\":2,\"sectionIndex\":1,\"controlIndex\":1,\"sectionFactor\":12},\"addedFromPersistedData\":true},{\"controlType\":0,\"pageSettingsSlice\":{\"isDefaultDescription\":true,\"isDefaultThumbnail\":true,\"isSpellCheckEnabled\":true}}]"
+//            }
+            
+            return s.def.post("/_api/sitepages/pages", 
+              { 
                 "PageLayoutType": "Article", 
-                "Name": "Name123.aspx", 
-                "Title": "Title XXX", 
-                "CanvasContent1": "[{\"controlType\":4,\"id\":\"23551566-9b9a-4faa-a095-302faabfa5f1\",\"innerHTML\":\"<p><strong>ggg1</strong></p>\",\"position\":{\"layoutIndex\":1,\"zoneIndex\":2,\"sectionIndex\":1,\"controlIndex\":1,\"sectionFactor\":12},\"addedFromPersistedData\":true},{\"controlType\":0,\"pageSettingsSlice\":{\"isDefaultDescription\":true,\"isDefaultThumbnail\":true,\"isSpellCheckEnabled\":true}}]"
-            });
+                "Name": name, 
+                "Title": title, 
+                "CanvasContent1": content
+             });
         },
         getAsItem: sitesRelativeUrl => {
             // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
