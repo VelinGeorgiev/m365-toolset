@@ -338,7 +338,17 @@ var s = {
         getAsJson: targetPage => {
             return s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
         },
-        getAsCanvasContent1Json: async targetPage => {
+        ,
+        getAsCanvasContent1AsString: async targetPage => {
+            
+            const {CanvasContent1} = await s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
+            
+            console.log('CanvasContent1')
+            console.log(CanvasContent1)
+            
+            return CanvasContent1
+        },
+        getAsCanvasContent1AsJson: async targetPage => {
             
             const p = await s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
             
