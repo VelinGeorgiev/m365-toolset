@@ -1,5 +1,5 @@
 var s = {
-    url: 'https://velingeorgiev.sharepoint.com/sites/s1',
+    url: 'https://clydeandco.sharepoint.com/sites/bau',
     auth: function () {
         return fetch(this.url + '/_api/contextinfo', {
             headers: {
@@ -16,7 +16,7 @@ var s = {
     },
     e: encodeURIComponent,
     def: {
-        headers: function (response, isMerge) {
+        headers: function (response, isMerge, isDelete) {
             var headers = {
                 "Accept": "application/json;odata=nometadata",
                 "Content-type": "application/json;odata=nometadata",
@@ -25,6 +25,10 @@ var s = {
             };
             if (isMerge) {
                 headers["X-HTTP-Method"] = "MERGE";
+                headers["If-Match"] = "*";
+            }
+            if (isDelete) {
+                headers["X-HTTP-Method"] = "DELETE";
                 headers["If-Match"] = "*";
             }
             return headers;
@@ -60,6 +64,17 @@ var s = {
                         headers: s.def.headers(response, isMerge),
                         method: "POST",
                         body: JSON.stringify(json)
+                    });
+                })
+                .then(s.def.success)
+                .catch(s.def.error);
+        },
+        remove: apiUrl => {
+            return s.auth()
+                .then(function (response) {
+                    return fetch(s.url + apiUrl, {
+                        headers: s.def.headers(response, false, true),
+                        method: "POST"
                     });
                 })
                 .then(s.def.success)
@@ -273,6 +288,32 @@ var s = {
         get: sitesRelativeUrl => {
             // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
              return s.def.get(`/_api/web/getFileByServerRelativeUrl('${sitesRelativeUrl}')`)
+        }
+    },
+    nav: {
+        list: () => {
+             return s.def.get(`/_api/web/navigation/quicklaunch`)
+        },
+         add: (title, url, isExternal) => {
+             // more info https://github.com/pnp/cli-microsoft365/blob/6dee8b646f230c815e11cdc937b13c6c72810766/src/m365/spo/commands/navigation/navigation-node-add.ts
+             return s.def.post(`/_api/web/navigation/quicklaunch`, {
+                    "Title": title,
+                    "Url": url,
+                    "IsExternal": isExternal || false
+          })
+        },
+         remove: async title => {
+             // more info https://github.com/pnp/cli-microsoft365/blob/6dee8b646f230c815e11cdc937b13c6c72810766/src/m365/spo/commands/navigation/navigation-node-add.ts
+             const {value} =  await s.def.get(`/_api/web/navigation/quicklaunch`)
+             
+             const navNodes = value.filter(x => x.Title === title)
+             
+             console.log('navNodes')
+             console.log(navNodes)
+             
+             if(navNodes && navNodes.length > 0) {
+                return s.def.remove(`/_api/web/navigation/quicklaunch/getbyid(${navNodes[0].Id})`)
+             }
         }
     }
 }
