@@ -133,7 +133,7 @@ var s = {
         },
         getHomePage: function () {
             return s.def.get("/_api/web/rootfolder?$select=WelcomePage");
-        },
+        } 
     },
     list: {
         addList: function (title, baseTemplate) {
@@ -267,6 +267,12 @@ var s = {
             return s.def.post("/_api/web/lists/GetByTitle('" + s.e(listTitle) + "')/Fields/GetByInternalNameOrTitle('" + s.e(fieldTitle) + "')", {
                 "CustomFormatter": JSON.stringify(json)
             }, true);
+        }
+    },
+    file: {
+        get: sitesRelativeUrl => {
+            // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
+             return s.def.get(`/_api/web/getFileByServerRelativeUrl('${sitesRelativeUrl}')`)
         }
     }
 }
