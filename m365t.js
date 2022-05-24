@@ -305,6 +305,12 @@ var s = {
                 overwrite: overwrite || false
             })
         },
+        copy2: (sourceRelativeURl, targetRelativeUrl) => {
+            // TODO: Does not work. Check why?
+            // usage s.file.copy('https://msyte.sharepoint.com/sites/s1/sitepages/Welcome.aspx', 'https://msyte.sharepoint.com/sites/s1/sitepages/Welcome1.aspx')
+                
+            return s.def.post(`/_api/web/GetFileByServerRelativePath('${sourceRelativeURl}')/copyTo('${targetRelativeUrl}')`)
+        },
         remove: serverRelativeUrl => {
             // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
             return s.def.remove(`/_api/web/getfilebyserverrelativeurl('${serverRelativeUrl}')`)
@@ -337,6 +343,18 @@ var s = {
         }
     },
     page: {
+        getTemplates: () => {
+          return s.def.get('/_api/sitepages/pages/templates')  
+        },
+        add: page => {
+            // https://spblog.net/post/2019/05/13/what-s-new-and-what-s-changed-in-sharepoint-online-rest-api-in-march-april-2019
+            return s.def.post("/_api/sitepages/pages", { 
+                "PageLayoutType": "Article", 
+                "Name": "Name123.aspx", 
+                "Title": "Title XXX", 
+                "CanvasContent1": "[{\"controlType\":4,\"id\":\"23551566-9b9a-4faa-a095-302faabfa5f1\",\"innerHTML\":\"<p><strong>ggg1</strong></p>\",\"position\":{\"layoutIndex\":1,\"zoneIndex\":2,\"sectionIndex\":1,\"controlIndex\":1,\"sectionFactor\":12},\"addedFromPersistedData\":true},{\"controlType\":0,\"pageSettingsSlice\":{\"isDefaultDescription\":true,\"isDefaultThumbnail\":true,\"isSpellCheckEnabled\":true}}]"
+            });
+        },
         getAsItem: sitesRelativeUrl => {
             // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
             return s.def.get(`/_api/web/getFileByServerRelativeUrl('${sitesRelativeUrl}')?$expand=ListItemAllFields/ClientSideApplicationId,ListItemAllFields/PageLayoutType,ListItemAllFields/CommentsDisabled`)
