@@ -335,22 +335,31 @@ var s = {
             // sitesRelativeUrl = /sites/Test/Documents/Doc1.docx
             return s.def.get(`/_api/web/getFileByServerRelativeUrl('${sitesRelativeUrl}')?$expand=ListItemAllFields/ClientSideApplicationId,ListItemAllFields/PageLayoutType,ListItemAllFields/CommentsDisabled`)
         },
-        getAsJson: targetPage => {
-            return s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
+        getAsJson: pageName => {
+            return s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${pageName}')`)
         },
-        ,
-        getAsCanvasContent1AsString: async targetPage => {
+        getAsCanvasContent1AsString: async pageName => {
             
-            const {CanvasContent1} = await s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
+            const {CanvasContent1} = await s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${pageName}')`)
             
             console.log('CanvasContent1')
             console.log(CanvasContent1)
             
             return CanvasContent1
         },
-        getAsCanvasContent1AsJson: async targetPage => {
+        setCanvasContent1AsString: async (serverRelativeFileUrl, canvasContent) => {
+             // PromotedState: 2,
+             // FirstPublishedDate: new Date().toISOString().replace('Z', '')
             
-            const p = await s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${targetPage}')`)
+            // Usage s.page.setCanvasContent1AsString('/sites/s1/sitepages/Home.aspx', '"<div>....</div>"')
+            
+            return s.def.post(`/_api/web/getfilebyserverrelativeurl('${serverRelativeFileUrl}')/ListItemAllFields')`, {
+              CanvasContent1: canvasContent
+            }, true)
+        },
+        getAsCanvasContent1AsJson: async pageName => {
+            
+            const p = await s.def.get(`/_api/sitepages/pages/GetByUrl('sitepages/${pageName}')`)
             
             const result = JSON.parse(p.CanvasContent1)
             
