@@ -142,6 +142,8 @@ var s = {
             return s.def.get("/_api/web/regionalsettings");
         },
         setHomePage: function (pageName) {
+            // usage s.web.setHomePage('Welcome.aspx')
+            
             return s.def.post("/_api/web/rootfolder", {
                 "WelcomePage": `SitePages/${pageName}`
             }, true);
@@ -321,6 +323,9 @@ var s = {
              return s.def.get(`/_api/web/navigation/quicklaunch`)
         },
          add: (title, url, isExternal) => {
+             
+             // usage: s.nav.add('Welcome', 'SitePages/Welcome.aspx')
+             
              // more info https://github.com/pnp/cli-microsoft365/blob/6dee8b646f230c815e11cdc937b13c6c72810766/src/m365/spo/commands/navigation/navigation-node-add.ts
              return s.def.post(`/_api/web/navigation/quicklaunch`, {
                     "Title": title,
