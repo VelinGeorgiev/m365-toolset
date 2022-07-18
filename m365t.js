@@ -1,5 +1,7 @@
+
+
 var s = {
-    url: 'https://clydeandco.sharepoint.com/sites/bau',
+    url: 'https://clydeandco.sharepoint.com/sites/KnowledgeSiteTemplate',
     auth: function () {
         return fetch(this.url + '/_api/contextinfo', {
             headers: {
@@ -351,7 +353,7 @@ var s = {
         getTemplates: () => {
           return s.def.get('/_api/sitepages/pages/templates')  
         },
-        add: async (name, title, content)  => {
+        add: async (name, title, content, type)  => {
             
 //            { 
 //                "PageLayoutType": "Article", 
@@ -362,7 +364,7 @@ var s = {
             
             const res = await s.def.post("/_api/sitepages/pages", 
               { 
-                "PageLayoutType": "Article", 
+                "PageLayoutType": type ? type : "Article",  // "Article", "Home"
                 "Name": name, 
                 "Title": title, 
                 "CanvasContent1": content
@@ -418,8 +420,83 @@ var s = {
         list: async () => {
             
             return await s.def.get(`/_api/sitepages/pages`)
-        }
-    }
+        },
+		changeLayout: async (serverRelativeFileUrl, layout) => {
+			
+			// layout = Home, Article
+			
+			await s.def.post(`/_api/web/GetFolderByServerRelativeUrl('${serverRelativeFileUrl}')/ListItemAllFields')`, 
+			{
+				"PageLayoutType": layout
+			}, 
+			true)
+		}
+    },
+	item: {
+		list: async (listName) => {
+			
+			// listName = 'Title'
+			
+			let item = await s.def.get(`/_api/web/lists/GetByTitle('${listName}')/items`)
+			
+			console.log(item)
+			
+			return item
+			
+		},
+		add: async (listName, json) => {
+			// { "Title": "Test" }
+			
+			let item = await s.def.post(`/_api/web/lists/GetByTitle('${listName}')/items`, json)
+			
+			console.log(item)
+			
+			return item
+		},
+		set: async (listName, itemId, json) => {
+			// { "Title": "Test" }
+			
+			let item = await s.def.post(`/_api/web/lists/GetByTitle('${listName}')/items('${itemId}')`, json, true)
+			
+			console.log(item)
+			
+			return item
+		},
+		get: async (listName, itemId) => {
+			// listName = 'Title' or '/sites/s1' if folder
+			
+			let item = await s.def.get(`/_api/web/lists/GetByTitle('${listName}')/items('${itemId}')`)
+			
+			console.log(item)
+			
+			return item
+		},
+		listFiles: async (relativeFolderUrl) => {
+			
+			// listName = 'Title' or '/sites/s1' if folder
+			
+			let item = await s.def.get(`/_api/web/GetFolderByServerRelativeUrl('${relativeFolderUrl}')/Files`)
+			
+			console.log(item)
+			
+			return item
+			
+		},
+		getFileItem: async (relativeFileUrl) => {
+			// listName = 'Title' or '/sites/s1' if folder
+			
+			let item = await s.def.get(`/_api/web/GetFolderByServerRelativeUrl('${relativeFileUrl}')/ListItemAllFields?&expand=PageLayoutType`)
+			
+			console.log(item)
+			
+			return item
+		},
+		setFileItem: async (serverRelativeFileUrl, json) => {
+			// serverRelativeFileUrl = '/sites/s1/sitepages/home.aspx'
+			
+			await s.def.post(`/_api/web/GetFolderByServerRelativeUrl('${serverRelativeFileUrl}')/ListItemAllFields')`, json, true)
+		}
+	}
 }
 if(window) {
     window.s = s;
