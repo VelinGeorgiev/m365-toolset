@@ -430,7 +430,23 @@ var s = {
 				"PageLayoutType": layout
 			}, 
 			true)
-		}
+		}, 
+		copy: async (sourceFullUrl, targetFolderUrl) => {
+            // usage s.page.copy('https://msyte.sharepoint.com/sites/s1/sitepages/Welcome.aspx', 'https://msyte.sharepoint.com/sites/s1/sitepages/Welcome1.aspx')
+                
+            return s.def.post(`/_api/site/CreateCopyJobs`, 
+				{  
+				   "exportObjectUris":[  
+					  sourceFullUrl
+				   ],
+				   "destinationUri": targetFolderUrl,
+				   "options":{  
+					  "IgnoreVersionHistory":true,
+					  "IsMoveMode":false
+				   }
+				}
+			)
+        }
     },
 	item: {
 		list: async (listName) => {
