@@ -1,7 +1,7 @@
 
 
 var s = {
-    url: 'https://clydeandco.sharepoint.com/sites/KnowledgeSiteTemplate',
+    url: 'https://yoursite.sharepoint.com/sites/KnowledgeSiteTemplate',
     auth: function () {
         return fetch(this.url + '/_api/contextinfo', {
             headers: {
